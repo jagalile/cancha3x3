@@ -31,6 +31,9 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 DEBUG = env('DJANGO_DEBUG')
 
 
+AUTH_USER_MODEL = 'users.Player'
+
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -48,6 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # My apps
+    'apps.users',
+    'apps.geo',
+    'apps.teams',
+    'apps.competitions',
+    'apps.rankings',
+    'apps.info',
 ]
 
 MIDDLEWARE = [
