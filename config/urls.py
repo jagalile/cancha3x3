@@ -19,8 +19,12 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 
+from django.contrib.auth.views import LogoutView
+
 urlpatterns = [
     path("", include("apps.info.urls")),
+    path("users/", include("apps.users.urls", namespace='users')),
+    path("dashboard/", include("apps.dashboard.urls", namespace='dashboard')),
     path('admin/', admin.site.urls),
 ]
 

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="hero bg-base-200 min-h-screen">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+      <div class="text-center lg:text-left">
+        <h1 class="text-5xl font-bold">FORJA TU LEYENDA</h1>
+        <p class="pt-6">Crea tu perfil y empieza a competir. El asfalto te espera.</p>
+        <div class="divider"></div>
+        <p>
+          ¿Ya tienes cuenta?{% url 'users:login' as url %}
+          {% with url=url label='Inicia sesión' extra_classes='link link-secondary link-hover' %}
+            {% include 'components/button.html' %}
+          {% endwith %}
+        </p>
+      </div>
+      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div class="card-body">
+          <form method="post" class="space-y-4">
+            <fieldset class="fieldset">
+              {% csrf_token %}
+              <label class="label">Nombre de Jugador</label>
+              {{ form.username }}
+              {% if form.username.errors %}
+                <p class="text-red-500 text-xs">{{ form.username.errors.0 }}</p>
+              {% endif %}
+              <label class="label">Email</label>
+              {{ form.email }}
+              {% if form.email.errors %}
+                <p class="text-red-500 text-xs">{{ form.email.errors.0 }}</p>
+              {% endif %}
+              <label class="label">Contraseña</label>
+              {{ form.password1 }}
+              {% if form.password1.errors %}
+                <p class="text-red-500 text-xs">{{ form.password1.errors.0 }}</p>
+              {% endif %}
+              <label class="label">Repite la contraseña</label>
+              {{ form.password2 }}
+              {% if form.password2.errors %}
+                <p class="text-red-500 text-xs">{{ form.password2.errors.0 }}</p>
+              {% endif %}
+              <div>
+                <input required type="checkbox" class="checkbox checkbox-xs" />Al registrarte, aceptas nuestros <a href="{% url 'info:terms_and_conditions' %}" target="_blank" class="link link-primary link-hover">Términos y Condiciones</a> y nuestra <a href="{% url 'info:privacy_policy' %}" target="_blank" class="link link-primary link-hover">Política de Privacidad</a>.
+              </div>
+              <button type="submit" class="btn btn-primary">Registrarse</button>
+              <a href="{% url 'info:index' %}" class="btn btn-neutral">Cancelar</a>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="hero bg-base-200 min-h-screen">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+      <div class="text-center lg:text-left">
+        <h1 class="text-5xl font-bold">VUELVE A LA CANCHA</h1>
+        <p class="pt-6">Tus rivales te están esperando.</p>
+        <div class="divider"></div>
+        <p>
+          ¿Nuevo en la cancha?{% url 'users:signup' as url %}
+          {% with url=url label='Regístrate aquí' extra_classes='link link-secondary link-hover' %}
+            {% include 'components/button.html' %}
+          {% endwith %}
+        </p>
+      </div>
+      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div class="card-body">
+          <form method="post" class="space-y-4">
+            <fieldset class="fieldset">
+              {% csrf_token %}
+              <label class="label">Nombre de Jugador</label>
+              {{ form.username }}
+              {% if form.username.errors %}
+                <p class="text-red-500 text-xs">{{ form.username.errors.0 }}</p>
+              {% endif %}
+              <label class="label">Contraseña</label>
+              {{ form.password }}
+              {% if form.password.errors %}
+                <p class="text-red-500 text-xs">{{ form.password.errors.0 }}</p>
+              {% endif %}
+              <div>
+                <a class="link link-hover">¿Olvidaste tu contraseña?</a>
+              </div>
+              <button type="submit" class="btn btn-primary">Entrar</button>
+              <a href="{% url 'info:index' %}" class="btn btn-neutral">Cancelar</a>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

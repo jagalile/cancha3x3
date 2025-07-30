@@ -8,7 +8,10 @@
       <div class="max-w-md">
         <h1 class="mb-5 text-5xl font-bold">DOMINA LA CANCHA FORJA TU LEYENDA</h1>
         <p class="mb-5">La plataforma definitiva para organizar, competir y dominar en el baloncesto 3x3 de España. Mide tu nivel, encuentra rivales y deja tu huella en el asfalto.</p>
-        {% include 'components/button.html' with label='Únete a las calles' extra_classes='btn-primary' %}
+        {% url 'users:signup' as url %}
+        {% with url=url label='Únete a las calles' extra_classes='btn btn-primary' %}
+          {% include 'components/button.html' %}
+        {% endwith %}
       </div>
     </div>
   </div>
@@ -20,6 +23,40 @@
     <p class="text-base">
       <strong>cancha3x3</strong> es más que una web para organizar partidos. Es el punto de encuentro de la comunidad del streetball. Aquí, cada canasta cuenta, cada victoria te eleva y cada partido es una oportunidad para forjar tu reputación.
     </p>
+  </section>
+  <section class="flex justify-center py-4">
+    <div class="stats stats-vertical lg:stats-horizontal shadow">
+      <div class="stat place-items-center">
+        <div class="stat-title">Jugadores</div>
+        <div class="stat-value">{{ total_users }}</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Equipos</div>
+        <div class="stat-value text-secondary">{{ total_teams }}</div>
+        <div class="stat-desc text-secondary">↗︎ 40 (2%)</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Ligas y torneos</div>
+        <div class="stat-value">{{ total_competitions }}</div>
+        <div class="stat-desc">↘︎ 90 (14%)</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Ciudades</div>
+        <div class="stat-value">{{ total_cities }}</div>
+        <div class="stat-desc">↘︎ 90 (14%)</div>
+      </div>
+
+      <div class="stat place-items-center">
+        <div class="stat-title">Canchas</div>
+        <div class="stat-value">{{ total_courts }}</div>
+        <div class="stat-desc">↘︎ 90 (14%)</div>
+      </div>
+    </div>
+  </section>
+  <section>
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-1 xl:gap-4 py-4 justify-center w-max mx-auto">
       {% include 'components/card.html' with title='ORGANIZA Y COMPITE' description='Crea o únete a torneos y ligas, tanto oficiales como pachangas con tus colegas. Gestiona tu equipo, inscríbete y prepárate para la batalla.' %}
       {% include 'components/card.html' with title='RANKING GLOBAL VIVO' description='Olvídate de las clasificaciones estáticas. Nuestro sistema de ranking, inspirado en el ajedrez, mide tu habilidad real y la de tu equipo después de cada partido. Tu nivel evoluciona contigo.' %}
@@ -71,7 +108,7 @@
         <img src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp" alt="Pizza" />
       </div>
     </div>
-    {% include 'components/button.html' with label='¿Quieres patrocinar el movimiento? Contacta con nosotros' extra_classes='btn-secondary' %}
+    {% include 'components/button.html' with label='¿Quieres patrocinar el movimiento? Contacta con nosotros' extra_classes='btn btn-secondary' %}
   </section>
   <section class="text-center mx-auto py-4">
     <h2 class="text-4xl font-bold">¿LISTO PARA DEJAR TU HUELLA?</h2>
