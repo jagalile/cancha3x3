@@ -41,7 +41,7 @@
                 <p class="text-red-500 text-xs">{{ form.password2.errors.0 }}</p>
               {% endif %}
               <div>
-                <input required type="checkbox" class="checkbox checkbox-xs" />Al registrarte, aceptas nuestros <a href="{% url 'info:terms_and_conditions' %}" target="_blank" class="link link-primary link-hover">Términos y Condiciones</a> y nuestra <a href="{% url 'info:privacy_policy' %}" target="_blank" class="link link-primary link-hover">Política de Privacidad</a>.
+                <input required type="checkbox" class="checkbox checkbox-xs" />&nbsp; Al registrarte, aceptas nuestros <a href="{% url 'info:terms_and_conditions' %}" target="_blank" class="link link-primary link-hover">Términos y Condiciones</a> y nuestra <a href="{% url 'info:privacy_policy' %}" target="_blank" class="link link-primary link-hover">Política de Privacidad</a>.
               </div>
               <button type="submit" class="btn btn-primary">Registrarse</button>
               <a href="{% url 'info:index' %}" class="btn btn-neutral">Cancelar</a>

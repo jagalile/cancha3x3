@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+  <!-- name of each tab group should be unique -->
+  <div class="tabs tabs-box flex justify-center my-8">
+    <input type="radio" name="my_tabs_6" class="tab" aria-label="Jugadores" checked="checked" />
+    <div class="tab-content bg-base-100 border-base-300 p-6">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th></th>
+              <th>Username</th>
+              <th>ELO</th>
+              <th>Favorite Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for player in player_ranking %}
+              <tr class="hover:bg-accent hover:text-accent-content">
+                <th>{{ forloop.counter }}</th>
+                <td>{{ player.player.username }}</td>
+                <td>{{ player.elo }}</td>
+                <td></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="join flex justify-center py-4">
+        <button class="join-item btn">«</button>
+        <button class="join-item btn"><</button>
+        <button class="join-item btn">Página 1</button>
+        <button class="join-item btn">></button>
+        <button class="join-item btn">»</button>
+      </div>
+    </div>
+
+    <input type="radio" name="my_tabs_6" class="tab" aria-label="Equipos" />
+    <div class="tab-content bg-base-100 border-base-300 p-6">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th></th>
+              <th>Equipo</th>
+              <th>ELO</th>
+              <th>Favorite Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for team in team_ranking %}
+              <tr class="hover:bg-accent hover:text-accent-content">
+                <th>{{ forloop.counter }}</th>
+                <td>{{ team.name }}</td>
+                <td>{{ team.average_elo|floatformat:"0" }}</td>
+                <td></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="join flex justify-center py-4">
+        <button class="join-item btn">«</button>
+        <button class="join-item btn"><</button>
+        <button class="join-item btn">Página 1</button>
+        <button class="join-item btn">></button>
+        <button class="join-item btn">»</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
