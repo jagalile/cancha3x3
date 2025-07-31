@@ -1,0 +1,26 @@
+<div class="card bg-base-200 w-96 shadow-sm cursor-pointer" onclick="map_modal.showModal()">
+  <figure>
+    <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp" alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{{ name }}<div class="badge badge-secondary">NEW</div></h2>
+    <p>{{ description }}</p>
+    <div class="card-actions justify-end">
+      <div class="badge badge-outline">{{ geo }}</div>
+    </div>
+  </div>
+</div>
+
+{% if latitude %}
+  <dialog id="map_modal" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl">
+      <h3 class="text-lg font-bold">{{ name }}</h3>
+      {% include 'components/map.html' with latitude=court.latitude longitude=court.longitude google_maps_api_key=google_maps_api_key %}
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn btn-accent">Cerrar</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+{% endif %}

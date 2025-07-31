@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+  {% include 'components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+  <div class="grid auto-cols-max grid-flow-col gap-4 my-4">
+    {% for city in cities %}
+      {% include 'components/geo-card.html' with name=city.name geo=city.province description=city.description %}
+    {% endfor %}
+    {% for court in courts %}
+      {% include 'components/geo-card.html' with name=court.name geo=court.city.name description=court.description latitude=court.latitude longitude=court.longitude google_maps_api_key=google_maps_api_key %}
+    {% endfor %}
+  </div>
+{% endblock %}

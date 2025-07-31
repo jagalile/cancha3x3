@@ -11,7 +11,10 @@
           <a href="{% url 'rankings:ranking_elo' %}">Ranking ELO</a>
         </li>
         <li>
-          <a>Ciudades</a>
+          <a href="{% url 'geo:cities' %}">Ciudades</a>
+        </li>
+        <li>
+          <a href="{% url 'geo:courts' %}">Canchas</a>
         </li>
         <li>
           <a>Parent</a>
@@ -37,8 +40,11 @@
         <a href="{% url 'rankings:ranking_elo' %}">Ranking ELO</a>
       </li>
       <li>
-        <a>Ciudades</a>
+        <a href="{% url 'geo:cities' %}">Ciudades</a>
       </li>
+      <li>
+          <a href="{% url 'geo:courts' %}">Canchas</a>
+        </li>
       <li>
         <details>
           <summary>Parent</summary>

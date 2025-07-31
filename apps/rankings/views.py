@@ -29,7 +29,7 @@ def _get_ordered_player_ranking():
     )
     player_ranking = (
         PlayerRanking.objects.filter(id__in=latest_ids)
-        .select_related("player")  # Carga todos los datos de Player
+        .select_related("player")
         .order_by("-elo", "player__username")
     )
 
@@ -68,6 +68,6 @@ def _get_ordered_team_ranking():
                 .values("elo")[:1]
             )
         )
-    )
+    ).order_by("-average_elo", "name")
 
     return teams_with_avg_elo

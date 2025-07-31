@@ -7,7 +7,7 @@
 {% block content %}
   <!-- name of each tab group should be unique -->
   <div class="tabs tabs-box flex justify-center my-8">
-    <input type="radio" name="my_tabs_6" class="tab" aria-label="Jugadores" checked="checked" />
+    <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Jugadores" checked="checked" />
     <div class="tab-content bg-base-100 border-base-300 p-6">
       <div class="overflow-x-auto">
         <table class="table table-zebra">
@@ -18,6 +18,7 @@
               <th>Avatar</th>
               <th>Username</th>
               <th>ELO</th>
+              <th>Reputación</th>
             </tr>
           </thead>
           <tbody>
@@ -36,7 +37,20 @@
                   </div>
                 </td>
                 <td>{{ player.player.username }}</td>
-                <td>{{ player.elo }}</td>
+                <td>
+                  {% if player.elo >= 2400 %}
+                    <span class="text-success">{{ player.elo|floatformat:'0' }}</span>
+                  {% else %}
+                    {{ player.elo|floatformat:'0' }}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if player.player.reputation_score < 0 %}
+                    <span class="text-error">{{ player.player.reputation_score|floatformat:'0' }}</span>
+                  {% else %}
+                    {{ player.player.reputation_score|floatformat:'0' }}
+                  {% endif %}
+                </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -51,7 +65,7 @@
       </div>
     </div>
 
-    <input type="radio" name="my_tabs_6" class="tab" aria-label="Equipos" />
+    <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Equipos" />
     <div class="tab-content bg-base-100 border-base-300 p-6">
       <div class="overflow-x-auto">
         <table class="table table-zebra">
@@ -80,7 +94,15 @@
                   </div>
                 </td>
                 <td>{{ team.name }}</td>
-                <td>{{ team.average_elo|floatformat:'0' }}</td>
+                <td>
+                  {% if team.average_elo >= 2400 %}
+                    <span class="text-success">{{ team.average_elo|floatformat:'0' }}</span>
+                  {% elif team.average_elo >= 0 and team.average_elo < 2400 %}
+                    {{ team.average_elo|floatformat:'0' }}
+                  {% else %}
+                    0
+                  {% endif %}
+                </td>
                 <td></td>
               </tr>
             {% endfor %}

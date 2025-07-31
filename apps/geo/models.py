@@ -6,6 +6,7 @@ from apps.geo.constants.provinces import PROVINCE_CHOICES
 class City(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nombre de la Ciudad')
     province = models.CharField(max_length=50, choices=PROVINCE_CHOICES)
+    description = models.TextField(blank=True, verbose_name='Descripción')
     logo = models.ImageField(upload_to='cities/', null=True, blank=True)
 
     def __str__(self):
@@ -19,7 +20,8 @@ class City(models.Model):
 class Court(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nombre de la Cancha')
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='courts', verbose_name='Ciudad')
-    address = models.CharField(max_length=255, verbose_name='Dirección')
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
     description = models.TextField(blank=True, verbose_name='Descripción')
     image = models.ImageField(upload_to='courts/', null=True, blank=True)
 
