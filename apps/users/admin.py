@@ -12,12 +12,13 @@ class PlayerAdmin(UserAdmin):
 
     fieldsets = UserAdmin.fieldsets + (
         ("Reputación", {'fields': ('reputation_score',)}),
+        ("Avatar", {'fields': ('avatar',)}),
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2'),
+            'fields': ('username', 'email', 'password1', 'password2', 'avatar'),
         }),
     )
 
