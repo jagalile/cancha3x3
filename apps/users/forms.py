@@ -11,13 +11,13 @@ from .models import Player
 class PlayerCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Player
-        fields = ("username", "email", "reputation_score")
+        fields = ("username", "email", "reputation_score", "avatar")
 
 
 class PlayerChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = Player
-        fields = ("username", "email", "reputation_score")
+        fields = ("username", "email", "reputation_score", "avatar")
 
 
 class SignUpForm(UserCreationForm):
@@ -28,7 +28,7 @@ class SignUpForm(UserCreationForm):
                 "class": "input",
                 "placeholder": "Tu apodo en la cancha, cómo te conocerán todos",
             }
-        )
+        ),
     )
 
     email = forms.EmailField(
@@ -48,7 +48,7 @@ class SignUpForm(UserCreationForm):
                 "class": "input",
                 "placeholder": "Elige algo seguro para proteger tu cuenta",
             }
-        )
+        ),
     )
 
     password2 = forms.CharField(
@@ -58,7 +58,7 @@ class SignUpForm(UserCreationForm):
                 "class": "input",
                 "placeholder": "Repetir contraseña",
             }
-        )
+        ),
     )
 
     class Meta:

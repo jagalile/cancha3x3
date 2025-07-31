@@ -4,6 +4,7 @@ from django.db import models
 class Team(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nombre del Equipo')
     is_active = models.BooleanField(default=True, verbose_name='Está Activo')
+    logo = models.ImageField(upload_to='logos/', null=True, blank=True)
 
     def __str__(self):
         return self.name

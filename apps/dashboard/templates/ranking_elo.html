@@ -15,18 +15,28 @@
           <thead>
             <tr>
               <th></th>
+              <th>Avatar</th>
               <th>Username</th>
               <th>ELO</th>
-              <th>Favorite Color</th>
             </tr>
           </thead>
           <tbody>
             {% for player in player_ranking %}
               <tr class="hover:bg-accent hover:text-accent-content">
                 <th>{{ forloop.counter }}</th>
+                <td>
+                  <div class="avatar">
+                    <div class="mask mask-squircle h-12 w-12">
+                      {% if player.avatar %}
+                        <img src="{{ player.avatar.url }}" alt="Avatar del jugador" width="150" />
+                      {% else %}
+                        <img src="{% static 'images/default_avatar.webp' %}" alt="Avatar por defecto" width="150" />
+                      {% endif %}
+                    </div>
+                  </div>
+                </td>
                 <td>{{ player.player.username }}</td>
                 <td>{{ player.elo }}</td>
-                <td></td>
               </tr>
             {% endfor %}
           </tbody>
@@ -49,17 +59,28 @@
           <thead>
             <tr>
               <th></th>
+              <th>Escudo</th>
               <th>Equipo</th>
               <th>ELO</th>
-              <th>Favorite Color</th>
             </tr>
           </thead>
           <tbody>
             {% for team in team_ranking %}
               <tr class="hover:bg-accent hover:text-accent-content">
                 <th>{{ forloop.counter }}</th>
+                <td>
+                  <div class="avatar">
+                    <div class="mask mask-squircle h-12 w-12">
+                      {% if team.logo %}
+                        <img src="{{ team.logo.url }}" alt="Logo del equipo" width="150" />
+                      {% else %}
+                        <img src="{% static 'images/default_logo.webp' %}" alt="Logo por defecto" width="150" />
+                      {% endif %}
+                    </div>
+                  </div>
+                </td>
                 <td>{{ team.name }}</td>
-                <td>{{ team.average_elo|floatformat:"0" }}</td>
+                <td>{{ team.average_elo|floatformat:'0' }}</td>
                 <td></td>
               </tr>
             {% endfor %}
