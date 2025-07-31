@@ -27,8 +27,8 @@
                 <td>
                   <div class="avatar">
                     <div class="mask mask-squircle h-12 w-12">
-                      {% if player.avatar %}
-                        <img src="{{ player.avatar.url }}" alt="Avatar del jugador" width="150" />
+                      {% if player.player.avatar %}
+                        <img src="{{ player.player.avatar.url }}" alt="Avatar del jugador" width="150" />
                       {% else %}
                         <img src="{% static 'images/default_avatar.webp' %}" alt="Avatar por defecto" width="150" />
                       {% endif %}

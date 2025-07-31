@@ -178,3 +178,5 @@ cython_debug/
 .pypirc
 .mise.toml
 mise.toml
+
+media/

@@ -34,8 +34,10 @@ def _get_ordered_player_ranking():
         .annotate(latest_id=Max("id"))
         .values_list("latest_id", flat=True)
     )
-    player_ranking = PlayerRanking.objects.filter(id__in=latest_ids).order_by(
-        "-elo", "player__username"
+    player_ranking = (
+        PlayerRanking.objects.filter(id__in=latest_ids)
+        .select_related("player")  # Carga todos los datos de Player
+        .order_by("-elo", "player__username")
     )
 
     return player_ranking
@@ -59,7 +61,7 @@ def _get_ordered_team_ranking():
         )
         .filter(
             Q(join_date_only__lte=today),
-            Q(leave_date_only__isnull=True) | Q(leave_date_only__gt=today),
+            Q(leave_date_only__isnull=True) | Q(leave_date_only__gte=today),
         )
         .annotate(latest_elo=Subquery(latest_ranking_subquery))
     )
