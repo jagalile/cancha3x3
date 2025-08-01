@@ -9,7 +9,7 @@
   <div class="tabs tabs-box flex justify-center my-8">
     <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Live" checked="checked" />
     <div class="tab-content bg-base-100 border-base-300 p-6">
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto" id="ranking-container">
         {% if player_ranking %}
           <h2 class="text-2xl text-center pb-2">Clasificación de Jugadores</h2>
           {% include 'elo_players_table.html' with player_ranking=player_ranking %}
@@ -19,13 +19,8 @@
         {% else %}
           <p class="text-center">No hay datos disponibles.</p>
         {% endif %}
-      </div>
-      <div class="join flex justify-center py-4">
-        <button class="join-item btn">«</button>
-        <button class="join-item btn"><</button>
-        <button class="join-item btn">Página 1</button>
-        <button class="join-item btn">></button>
-        <button class="join-item btn">»</button>
+        {% include 'partials/pagination_buttons.html' with page_obj=player_ranking %}
+        {% include 'partials/pagination_buttons.html' with page_obj=team_ranking %}
       </div>
     </div>
 
@@ -42,13 +37,12 @@
           <p class="text-center">No hay datos históricos disponibles.</p>
         {% endif %}
       </div>
-      <div class="join flex justify-center py-4">
-        <button class="join-item btn">«</button>
-        <button class="join-item btn"><</button>
-        <button class="join-item btn">Página 1</button>
-        <button class="join-item btn">></button>
-        <button class="join-item btn">»</button>
-      </div>
     </div>
   </div>
+  <script>
+  function loadPage(page) {
+    htmx.ajax('GET', `?page=${page}`, { target: '#ranking-list', swap: 'innerHTML' });
+    htmx.ajax('GET', `?page=${page}`, { target: '#pagination-controls', swap: 'innerHTML' });
+  }
+</script>
 {% endblock %}

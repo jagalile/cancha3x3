@@ -1,0 +1,49 @@
+<div class="join my-4 flex justify-center">
+  {% if page_obj.has_previous %}
+    <button
+      hx-get="?page={{ page_obj.previous_page_number }}"
+      hx-target="#ranking-container"
+      hx-swap="innerHTML"
+      class="join-item btn"
+    >
+      «
+    </button>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+    {% if num == page_obj.number %}
+      <button class="join-item btn btn-accent">{{ num }}</button>
+    {% elif num >= page_obj.number|add:-1 and num <= page_obj.number|add:1 %}
+      <button
+        hx-get="?page={{ num }}"
+        hx-target="#ranking-container"
+        hx-swap="innerHTML"
+        class="join-item btn"
+      >
+        {{ num }}
+      </button>
+    {% elif num == 1 or num == page_obj.paginator.num_pages %}
+      <button
+        hx-get="?page={{ num }}"
+        hx-target="#ranking-container"
+        hx-swap="innerHTML"
+        class="join-item btn"
+      >
+        {{ num }}
+      </button>
+    {% elif num == page_obj.number|add:-3 or num == page_obj.number|add:3 %}
+      <span class="join-item btn btn-disabled">...</span>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+    <button
+      hx-get="?page={{ page_obj.next_page_number }}"
+      hx-target="#ranking-container"
+      hx-swap="innerHTML"
+      class="join-item btn"
+    >
+      »
+    </button>
+  {% endif %}
+</div>

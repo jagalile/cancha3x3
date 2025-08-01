@@ -1,0 +1,11 @@
+{% if player_ranking %}
+  <h2 class="text-2xl text-center pb-2">Clasificación de Jugadores</h2>
+  {% include 'elo_players_table.html' with player_ranking=player_ranking %}
+{% elif team_ranking %}
+  <h2 class="text-2xl text-center pb-2">Clasificación de Equipos</h2>
+  {% include 'elo_teams_table.html' with team_ranking=team_ranking %}
+{% else %}
+  <p class="text-center">No hay datos disponibles.</p>
+{% endif %}
+{% include 'partials/pagination_buttons.html' with page_obj=player_ranking %}
+{% include 'partials/pagination_buttons.html' with page_obj=team_ranking %}

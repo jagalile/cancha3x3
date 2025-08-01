@@ -6,13 +6,29 @@ from apps.rankings.models import PlayerRanking
 from apps.teams.models import Team, TeamMember
 from django.db.models.functions import TruncDate
 from django.db.models import Avg, Subquery, OuterRef, Q, Max
+from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
+ITEMS_PER_PAGE = 1  # Default items per page for player ranking
 
 # Create your views here.
 @login_required
 def ranking_elo_players(request):
-    player_ranking = _get_ordered_player_ranking()
+    page_number = request.GET.get("page", 1)
+    player_ranking, start_index = _get_ordered_player_ranking(page_number)
     historical_player_ranking = _get_historical_players_ranking()
+
+    if request.htmx:
+        html = render_to_string(
+            "partials/partial_ranking_table.html",
+            {
+                "player_ranking": player_ranking,
+                "historical_player_ranking": historical_player_ranking,
+                "start_index": start_index,
+            },
+        )
+        return HttpResponse(html)
 
     return render(
         request,
@@ -20,18 +36,39 @@ def ranking_elo_players(request):
         {
             "player_ranking": player_ranking,
             "historical_player_ranking": historical_player_ranking,
+            "start_index": start_index,
         },
     )
 
 
 @login_required
 def ranking_elo_teams(request):
-    team_ranking = _get_ordered_team_ranking()
+    page_number = request.GET.get("page", 1)
+    team_ranking, start_index = _get_ordered_team_ranking(page_number)
+
+    if request.htmx:
+        html = render_to_string(
+            "partials/partial_ranking_table.html",
+            {
+                "team_ranking": team_ranking,
+                "start_index": start_index,
+            },
+        )
+        return HttpResponse(html)
+
+    return render(
+        request,
+        "elo_tables.html",
+        {
+            "team_ranking": team_ranking,
+            "start_index": start_index,
+        },
+    )
 
     return render(request, "elo_tables.html", {"team_ranking": team_ranking})
 
 
-def _get_ordered_player_ranking():
+def _get_ordered_player_ranking(page_number, per_page=ITEMS_PER_PAGE):
     latest_ids = (
         PlayerRanking.objects.values("player_id")
         .annotate(latest_id=Max("id"))
@@ -43,7 +80,10 @@ def _get_ordered_player_ranking():
         .order_by("-elo", "player__username")
     )
 
-    return player_ranking
+    paginator = Paginator(player_ranking, per_page)
+    players = paginator.get_page(page_number)
+
+    return players, (int(page_number) - 1) * per_page
 
 
 def _get_historical_players_ranking():
@@ -60,7 +100,7 @@ def _get_historical_players_ranking():
     return historical_players_ranking
 
 
-def _get_ordered_team_ranking():
+def _get_ordered_team_ranking(page_number, per_page=ITEMS_PER_PAGE):
     today = date.today()
 
     latest_ranking_subquery = (
@@ -95,4 +135,7 @@ def _get_ordered_team_ranking():
         .order_by("-average_elo", "name")
     )
 
-    return teams_with_avg_elo
+    paginator = Paginator(teams_with_avg_elo, per_page)
+    players = paginator.get_page(page_number)
+
+    return players, (int(page_number) - 1) * per_page
