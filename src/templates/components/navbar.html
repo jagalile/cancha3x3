@@ -8,7 +8,17 @@
       </div>
       <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         <li>
-          <a href="{% url 'rankings:ranking_elo' %}">Ranking ELO</a>
+          <details>
+            <summary>Ranking</summary>
+            <ul class="p-2">
+              <li>
+                <a href="{% url 'rankings:ranking_elo_players' %}">Jugadores</a>
+              </li>
+              <li>
+                <a href="{% url 'rankings:ranking_elo_teams' %}">Equipos</a>
+              </li>
+            </ul>
+          </details>
         </li>
         <li>
           <a href="{% url 'geo:cities' %}">Ciudades</a>
@@ -32,19 +42,29 @@
         </li>
       </ul>
     </div>
-    <a href="{% url 'dashboard:dashboard' %}"class="btn btn-ghost text-xl">Cancha3x3</a>
+    <a href="{% url 'dashboard:dashboard' %}" class="btn btn-ghost text-xl">Cancha3x3</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
       <li>
-        <a href="{% url 'rankings:ranking_elo' %}">Ranking ELO</a>
+        <details>
+          <summary>Ranking</summary>
+          <ul class="p-2">
+            <li>
+              <a href="{% url 'rankings:ranking_elo_players' %}">Jugadores</a>
+            </li>
+            <li>
+              <a href="{% url 'rankings:ranking_elo_teams' %}">Equipos</a>
+            </li>
+          </ul>
+        </details>
       </li>
       <li>
         <a href="{% url 'geo:cities' %}">Ciudades</a>
       </li>
       <li>
-          <a href="{% url 'geo:courts' %}">Canchas</a>
-        </li>
+        <a href="{% url 'geo:courts' %}">Canchas</a>
+      </li>
       <li>
         <details>
           <summary>Parent</summary>

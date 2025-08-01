@@ -7,18 +7,20 @@ from apps.teams.models import Team, TeamMember
 from django.db.models.functions import TruncDate
 from django.db.models import Avg, Subquery, OuterRef, Q, Max
 
+
 # Create your views here.
 @login_required
-def ranking_elo(request):
+def ranking_elo_players(request):
     player_ranking = _get_ordered_player_ranking()
 
+    return render(request, "elo_tables.html", {"player_ranking": player_ranking})
+
+
+@login_required
+def ranking_elo_teams(request):
     team_ranking = _get_ordered_team_ranking()
 
-    return render(
-        request,
-        "elo_tables.html",
-        {"player_ranking": player_ranking, "team_ranking": team_ranking},
-    )
+    return render(request, "elo_tables.html", {"team_ranking": team_ranking})
 
 
 def _get_ordered_player_ranking():
@@ -39,14 +41,12 @@ def _get_ordered_player_ranking():
 def _get_ordered_team_ranking():
     today = date.today()
 
-    # Subconsulta para obtener el último ELO por jugador
     latest_ranking_subquery = (
         PlayerRanking.objects.filter(player=OuterRef("player"))
         .order_by("-date")
         .values("elo")[:1]
     )
 
-    # 1. Anotar fechas truncadas en TeamMember
     active_members = (
         TeamMember.objects.annotate(
             join_date_only=TruncDate("join_date"),
@@ -59,15 +59,18 @@ def _get_ordered_team_ranking():
         .annotate(latest_elo=Subquery(latest_ranking_subquery))
     )
 
-    # 2. Anotar equipos con el promedio de ELO de sus miembros activos
-    teams_with_avg_elo = Team.objects.filter(members__in=active_members).annotate(
-        average_elo=Avg(
-            Subquery(
-                PlayerRanking.objects.filter(player=OuterRef("members__player"))
-                .order_by("-date")
-                .values("elo")[:1]
+    teams_with_avg_elo = (
+        Team.objects.filter(members__in=active_members)
+        .annotate(
+            average_elo=Avg(
+                Subquery(
+                    PlayerRanking.objects.filter(player=OuterRef("members__player"))
+                    .order_by("-date")
+                    .values("elo")[:1]
+                )
             )
         )
-    ).order_by("-average_elo", "name")
+        .order_by("-average_elo", "name")
+    )
 
     return teams_with_avg_elo

@@ -1,0 +1,41 @@
+{% load static %}
+<table class="table table-zebra">
+  <!-- head -->
+  <thead>
+    <tr>
+      <th></th>
+      <th>Escudo</th>
+      <th>Equipo</th>
+      <th>ELO</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for team in team_ranking %}
+      <tr class="hover:bg-accent hover:text-accent-content">
+        <th>{{ forloop.counter }}</th>
+        <td>
+          <div class="avatar">
+            <div class="mask mask-squircle h-12 w-12">
+              {% if team.logo %}
+                <img src="{{ team.logo.url }}" alt="Logo del equipo" width="150" />
+              {% else %}
+                <img src="{% static 'images/default_logo.webp' %}" alt="Logo por defecto" width="150" />
+              {% endif %}
+            </div>
+          </div>
+        </td>
+        <td>{{ team.name }}</td>
+        <td>
+          {% if team.average_elo >= 2400 %}
+            <span class="text-success">{{ team.average_elo|floatformat:'0' }}</span>
+          {% elif team.average_elo >= 0 and team.average_elo < 2400 %}
+            {{ team.average_elo|floatformat:'0' }}
+          {% else %}
+            0
+          {% endif %}
+        </td>
+        <td></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

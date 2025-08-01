@@ -7,54 +7,14 @@
 {% block content %}
   <!-- name of each tab group should be unique -->
   <div class="tabs tabs-box flex justify-center my-8">
-    <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Jugadores" checked="checked" />
+    <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Live" checked="checked" />
     <div class="tab-content bg-base-100 border-base-300 p-6">
       <div class="overflow-x-auto">
-        <table class="table table-zebra">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th></th>
-              <th>Avatar</th>
-              <th>Username</th>
-              <th>ELO</th>
-              <th>Reputación</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for player in player_ranking %}
-              <tr class="hover:bg-accent hover:text-accent-content">
-                <th>{{ forloop.counter }}</th>
-                <td>
-                  <div class="avatar">
-                    <div class="mask mask-squircle h-12 w-12">
-                      {% if player.player.avatar %}
-                        <img src="{{ player.player.avatar.url }}" alt="Avatar del jugador" width="150" />
-                      {% else %}
-                        <img src="{% static 'images/default_avatar.webp' %}" alt="Avatar por defecto" width="150" />
-                      {% endif %}
-                    </div>
-                  </div>
-                </td>
-                <td>{{ player.player.username }}</td>
-                <td>
-                  {% if player.elo >= 2400 %}
-                    <span class="text-success">{{ player.elo|floatformat:'0' }}</span>
-                  {% else %}
-                    {{ player.elo|floatformat:'0' }}
-                  {% endif %}
-                </td>
-                <td>
-                  {% if player.player.reputation_score < 0 %}
-                    <span class="text-error">{{ player.player.reputation_score|floatformat:'0' }}</span>
-                  {% else %}
-                    {{ player.player.reputation_score|floatformat:'0' }}
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        {% if player_ranking %}
+          {% include 'elo_players_table.html' with player_ranking=player_ranking %}
+        {% elif team_ranking %}
+          {% include 'elo_teams_table.html' with team_ranking=team_ranking %}
+        {% endif %}
       </div>
       <div class="join flex justify-center py-4">
         <button class="join-item btn">«</button>
@@ -65,49 +25,14 @@
       </div>
     </div>
 
-    <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Equipos" />
+    <input type="radio" name="my_tabs_6" class="tab my-2" aria-label="Histórico" />
     <div class="tab-content bg-base-100 border-base-300 p-6">
       <div class="overflow-x-auto">
-        <table class="table table-zebra">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th></th>
-              <th>Escudo</th>
-              <th>Equipo</th>
-              <th>ELO</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for team in team_ranking %}
-              <tr class="hover:bg-accent hover:text-accent-content">
-                <th>{{ forloop.counter }}</th>
-                <td>
-                  <div class="avatar">
-                    <div class="mask mask-squircle h-12 w-12">
-                      {% if team.logo %}
-                        <img src="{{ team.logo.url }}" alt="Logo del equipo" width="150" />
-                      {% else %}
-                        <img src="{% static 'images/default_logo.webp' %}" alt="Logo por defecto" width="150" />
-                      {% endif %}
-                    </div>
-                  </div>
-                </td>
-                <td>{{ team.name }}</td>
-                <td>
-                  {% if team.average_elo >= 2400 %}
-                    <span class="text-success">{{ team.average_elo|floatformat:'0' }}</span>
-                  {% elif team.average_elo >= 0 and team.average_elo < 2400 %}
-                    {{ team.average_elo|floatformat:'0' }}
-                  {% else %}
-                    0
-                  {% endif %}
-                </td>
-                <td></td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        {% if historic_player_ranking %}
+          {% include 'elo_players_table.html' with player_ranking=historic_player_ranking %}
+        {% elif historic_team_ranking %}
+          {% include 'elo_teams_table.html' with team_ranking=historic_team_ranking %}
+        {% endif %}
       </div>
       <div class="join flex justify-center py-4">
         <button class="join-item btn">«</button>
