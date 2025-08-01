@@ -12,8 +12,16 @@ from django.db.models import Avg, Subquery, OuterRef, Q, Max
 @login_required
 def ranking_elo_players(request):
     player_ranking = _get_ordered_player_ranking()
+    historical_player_ranking = _get_historical_players_ranking()
 
-    return render(request, "elo_tables.html", {"player_ranking": player_ranking})
+    return render(
+        request,
+        "elo_tables.html",
+        {
+            "player_ranking": player_ranking,
+            "historical_player_ranking": historical_player_ranking,
+        },
+    )
 
 
 @login_required
@@ -36,6 +44,20 @@ def _get_ordered_player_ranking():
     )
 
     return player_ranking
+
+
+def _get_historical_players_ranking():
+    best_rankings = PlayerRanking.objects.filter(player=OuterRef("player")).order_by(
+        "-elo"
+    )  # el mejor ELO primero
+
+    historical_players_ranking = (
+        PlayerRanking.objects.select_related("player")
+        .filter(pk=Subquery(best_rankings.values("pk")[:1]))  # solo uno por jugador
+        .order_by("-elo", "player__username")
+    )
+
+    return historical_players_ranking
 
 
 def _get_ordered_team_ranking():
