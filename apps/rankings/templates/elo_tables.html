@@ -12,7 +12,7 @@
       <div class="overflow-x-auto" id="ranking-container">
         {% if player_ranking %}
           <h2 class="text-2xl text-center pb-2">Clasificación de Jugadores</h2>
-          {% include 'elo_players_table.html' with player_ranking=player_ranking %}
+          {% include 'elo_players_table.html' with player_ranking=player_ranking user=user %}
         {% elif team_ranking %}
           <h2 class="text-2xl text-center pb-2">Clasificación de Equipos</h2>
           {% include 'elo_teams_table.html' with team_ranking=team_ranking %}
@@ -29,7 +29,7 @@
       <div class="overflow-x-auto">
         {% if historical_player_ranking %}
           <h2 class="text-2xl text-center pb-2">Clasificación Histórica de Jugadores</h2>
-          {% include 'elo_players_table.html' with player_ranking=historical_player_ranking %}
+          {% include 'elo_players_table.html' with player_ranking=historical_player_ranking user=user %}
         {% elif historical_teams_ranking %}
           <h2 class="text-2xl text-center pb-2">Clasificación Histórica de Equipos</h2>
           {% include 'elo_teams_table.html' with team_ranking=historical_teams_ranking %}
@@ -39,10 +39,4 @@
       </div>
     </div>
   </div>
-  <script>
-  function loadPage(page) {
-    htmx.ajax('GET', `?page=${page}`, { target: '#ranking-list', swap: 'innerHTML' });
-    htmx.ajax('GET', `?page=${page}`, { target: '#pagination-controls', swap: 'innerHTML' });
-  }
-</script>
 {% endblock %}

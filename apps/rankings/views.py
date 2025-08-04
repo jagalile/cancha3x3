@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 
-ITEMS_PER_PAGE = 1  # Default items per page for player ranking
+ITEMS_PER_PAGE = 10
 
 # Create your views here.
 @login_required
@@ -18,6 +18,7 @@ def ranking_elo_players(request):
     page_number = request.GET.get("page", 1)
     player_ranking, start_index = _get_ordered_player_ranking(page_number)
     historical_player_ranking = _get_historical_players_ranking()
+    user = request.user
 
     if request.htmx:
         html = render_to_string(
@@ -25,6 +26,7 @@ def ranking_elo_players(request):
             {
                 "player_ranking": player_ranking,
                 "historical_player_ranking": historical_player_ranking,
+                "user": user,
                 "start_index": start_index,
             },
         )
@@ -36,6 +38,7 @@ def ranking_elo_players(request):
         {
             "player_ranking": player_ranking,
             "historical_player_ranking": historical_player_ranking,
+            "user": user,
             "start_index": start_index,
         },
     )
@@ -65,8 +68,6 @@ def ranking_elo_teams(request):
         },
     )
 
-    return render(request, "elo_tables.html", {"team_ranking": team_ranking})
-
 
 def _get_ordered_player_ranking(page_number, per_page=ITEMS_PER_PAGE):
     latest_ids = (
@@ -89,11 +90,11 @@ def _get_ordered_player_ranking(page_number, per_page=ITEMS_PER_PAGE):
 def _get_historical_players_ranking():
     best_rankings = PlayerRanking.objects.filter(player=OuterRef("player")).order_by(
         "-elo"
-    )  # el mejor ELO primero
+    )
 
     historical_players_ranking = (
         PlayerRanking.objects.select_related("player")
-        .filter(pk=Subquery(best_rankings.values("pk")[:1]))  # solo uno por jugador
+        .filter(pk=Subquery(best_rankings.values("pk")[:1]))
         .order_by("-elo", "player__username")
     )
 

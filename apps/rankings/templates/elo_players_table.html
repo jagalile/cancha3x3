@@ -11,7 +11,11 @@
   </thead>
   <tbody>
     {% for player in player_ranking %}
+      {% if player.player.id == user.id %}
+      <tr class="bg-secondary text-secondary-content hover:bg-accent hover:text-accent-content">
+      {% else %}
       <tr class="hover:bg-accent hover:text-accent-content">
+      {% endif %}
         <th>{{ forloop.counter|add:start_index }}</th>
         <td>
           <div class="avatar">
