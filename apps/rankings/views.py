@@ -137,6 +137,6 @@ def _get_ordered_team_ranking(page_number, per_page=ITEMS_PER_PAGE):
     )
 
     paginator = Paginator(teams_with_avg_elo, per_page)
-    players = paginator.get_page(page_number)
+    teams_with_avg_elo = paginator.get_page(page_number)
 
-    return players, (int(page_number) - 1) * per_page
+    return teams_with_avg_elo, (int(page_number) - 1) * per_page
