@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import City, Court
+from .models import City, Court, NewCourt
 
 # Register your models here.
 class CityAdmin(admin.ModelAdmin):
@@ -21,3 +21,11 @@ class CourtAdmin(admin.ModelAdmin):
         return queryset.select_related('city')
 
 admin.site.register(Court, CourtAdmin)
+
+class NewCourtAdmin(admin.ModelAdmin):
+    list_display = ('name', 'city', 'address', 'status')
+    search_fields = ('name', 'city', 'address', 'status')
+    list_filter = ('city', 'status')
+    ordering = ('city', 'name')
+    
+admin.site.register(NewCourt, NewCourtAdmin)

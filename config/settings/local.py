@@ -8,4 +8,4 @@ STATICFILES_DIRS = [
     BASE_DIR / "src/static",
 ]
 
-# Configuraciones específicas para desarrollo, como django-debug-toolbar
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

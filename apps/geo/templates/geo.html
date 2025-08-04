@@ -5,6 +5,15 @@
 {% endblock %}
 
 {% block content %}
+  {% if courts %}
+    <section>
+      <button class="btn btn-secondary my-4" onclick="my_modal_1.showModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+          <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z" clip-rule="evenodd" />
+        </svg>Nueva cancha
+      </button>
+    </section>
+  {% endif %}
   <div class="grid auto-cols-max grid-flow-col gap-4 my-4">
     {% for city in cities %}
       {% include 'components/geo-card.html' with name=city.name geo=city.province description=city.description %}
@@ -13,4 +22,35 @@
       {% include 'components/geo-card.html' with name=court.name geo=court.city.name description=court.description latitude=court.latitude longitude=court.longitude google_maps_api_key=google_maps_api_key %}
     {% endfor %}
   </div>
+
+  <dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+      <div id="court-form">
+        <h3 class="text-lg font-bold mb-4">Envía tu propuesta de nueva cancha</h3>
+        <form method="post" hx-post="/geo/courts/" hx-target="#court-form" hx-swap="outerHTML" class="flex flex-col gap-4">
+          {% csrf_token %}
+
+          <div>
+            <label class="label"><span class="label-text">Cancha</span></label>
+            {{ form.name }}
+          </div>
+
+          <div>
+            <label class="label"><span class="label-text">Ciudad</span></label>
+            {{ form.city }}
+          </div>
+
+          <div>
+            <label class="label"><span class="label-text">Dirección</span></label>
+            {{ form.address }}
+          </div>
+
+          <div class="flex justify-end gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="button" class="btn" onclick="document.getElementById('my_modal_1').close()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
 {% endblock %}
