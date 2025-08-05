@@ -1,8 +1,10 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from apps.users.forms import CustomLoginForm, SignUpForm
+from django.contrib.auth import logout
 
 
 # Create your views here.
@@ -28,3 +30,12 @@ class SignUpView(FormView):
         user = form.save()
         CustomLoginView(self.request, user)
         return super().form_valid(form)
+
+
+class CustomLogoutView(LogoutView):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        redirect_url = reverse_lazy("users:login")  # o cualquier otra ruta
+        response = JsonResponse({}, status=200)
+        response["HX-Redirect"] = redirect_url
+        return response

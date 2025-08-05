@@ -12,4 +12,5 @@ from apps.teams.models import Team, TeamMember
 @login_required
 def dashboard(request):
     user = request.user
+    print(request.user.__dict__)
     return render(request, "dashboard.html", {"user": user})

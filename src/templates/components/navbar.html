@@ -1,3 +1,4 @@
+{% load static %}
 <div class="navbar bg-base-200 shadow-sm">
   <div class="navbar-start">
     <div class="dropdown">
@@ -10,7 +11,7 @@
         <li>
           <details>
             <summary>Ranking</summary>
-            <ul class="p-2">
+            <ul class="p-2 z-[999]">
               <li>
                 <a href="{% url 'rankings:ranking_elo_players' %}">Jugadores</a>
               </li>
@@ -49,7 +50,7 @@
       <li>
         <details>
           <summary>Ranking</summary>
-          <ul class="p-2">
+          <ul class="p-2 z-[999]">
             <li>
               <a href="{% url 'rankings:ranking_elo_players' %}">Jugadores</a>
             </li>
@@ -84,13 +85,48 @@
     </ul>
   </div>
   <div class="navbar-end">
-    {% url 'users:profile' as url %}
-    {% with url=url label=user.username extra_classes='btn btn-primary' %}
-      {% include 'components/button.html' %}
-    {% endwith %}
-    <form id="logout-form" action="{% url 'users:logout' %}" method="post" class="ml-2">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-neutral">Cerrar sesión</button>
-    </form>
+    <button class="avatar cursor-pointer" popovertarget="popover-1" style="anchor-name: --anchor-1">
+      <div class="mask mask-squircle w-12">
+        {% if user.avatar %}
+          <img src="{{ user.avatar.url }}" alt="Avatar del usuario" width="150" />
+        {% else %}
+          <img src="{% static 'images/default_avatar.webp' %}" alt="Avatar por defecto" width="150" />
+        {% endif %}
+      </div>
+    </button>
+
+    <ul class="dropdown dropdown-end menu w-52 rounded-box bg-base-100 shadow-sm z-[999]" popover id="popover-1" style="position-anchor: --anchor-1">
+      <li>
+        <a>Perfil</a>
+      </li>
+      <label class="toggle text-base-content mx-2">
+        <input type="checkbox" value="night" class="theme-controller" />
+
+        <svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </g>
+        </svg>
+
+        <svg aria-label="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </g>
+        </svg>
+      </label>
+      <div class="divider"></div>
+      <li>
+        <a href="#" hx-post="{% url 'users:logout' %}" hx-include="[name=csrfmiddlewaretoken]" hx-target="body" hx-swap="none">Cerrar sesión</a>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+      </li>
+    </ul>
   </div>
 </div>
