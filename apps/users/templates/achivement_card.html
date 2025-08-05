@@ -1,0 +1,20 @@
+{% load static %}
+<ul class="list bg-base-100 rounded-box shadow-md">
+  {% for achivement in achivements %}
+    <li class="list-row">
+      <div class="avatar">
+        <div class="mask mask-squircle w-18">
+          {% if achivement.logo %}
+            <img src="{{ achivement.logo.url }}" alt="Achivement" width="150" />
+          {% else %}
+            <img src="{% static 'images/default_achivement.webp' %}" alt="Achivement por defecto" width="150" />
+          {% endif %}
+        </div>
+      </div>
+      <div>
+        <div class="text-2xl">{{ achivement.name }}</div>
+        <div class="text-xl uppercase font-semibold opacity-60">{{ achivement.description }}</div>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

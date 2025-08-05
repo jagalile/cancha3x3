@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+  {% include 'components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+  <section class="mt-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="avatar justify-self-center">
+        <div class="mask mask-squircle w-80">
+          {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Logo del jugador" />
+          {% else %}
+            <img src="{% static 'images/default_avatar.webp' %}" alt="Logo por defecto" width="150" />
+          {% endif %}
+        </div>
+      </div>
+      <div class="justify-self-center mt-2">
+        <div class="text-center text-6xl">{{ user.username }}</div>
+        <div class="mt-4">
+          <div class="stats stats-vertical lg:stats-horizontal shadow">
+            <div class="stat place-items-center">
+              <div class="stat-title text-2xl">Partidos Jugados</div>
+              <div class="stat-value text-6xl">{{ total_games }}</div>
+              <div class="stat-desc text-xl">Jan 1st - Feb 1st</div>
+            </div>
+
+            <div class="stat place-items-center">
+              <div class="stat-title text-2xl">ELO</div>
+              <div class="stat-value text-6xl">{{ current_elo }}</div>
+              <div class="stat-desc text-xl">
+                <div class="badge badge-primary">Oro</div>{{ highest_elo }}
+              </div>
+            </div>
+
+            <div class="stat place-items-center">
+              <div class="stat-title text-2xl">Reputación</div>
+              <div class="stat-value text-6xl">{{ reputation }}%</div>
+              <div class="stat-desc text-xl">Comportamiento ejemplar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="my-4">
+    <!-- name of each tab group should be unique -->
+    <div class="tabs tabs-box">
+      <input type="radio" name="my_tabs_6" class="tab" aria-label="Equipos" checked="checked" />
+      <div class="tab-content bg-base-200 border-base-300 p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h2>Equipos Actuales</h2>
+            {% include 'components/team_card.html' with teams=current_teams %}
+          </div>
+          <div>
+            <h2>Historial de equipos</h2>
+            {% include 'components/team_card.html' with teams=historical_teams %}
+          </div>
+        </div>
+      </div>
+
+      <input type="radio" name="my_tabs_6" class="tab" aria-label="Vitrina" />
+      <div class="tab-content bg-base-200 border-base-300 p-6">No hay datos todavía</div>
+
+      <input type="radio" name="my_tabs_6" class="tab" aria-label="Ligas y Torneos" />
+      <div class="tab-content bg-base-200 border-base-300 p-6">No hay datos todavía</div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,5 +1,5 @@
 {% load static %}
-<table class="table table-zebra">
+<table class="table">
   <thead>
     <tr>
       <th></th>
@@ -12,38 +12,38 @@
   <tbody>
     {% for player in player_ranking %}
       {% if player.player.id == user.id %}
-      <tr class="bg-secondary text-secondary-content hover:bg-accent hover:text-accent-content">
+        <tr class="bg-secondary text-secondary-content hover:bg-accent hover:text-accent-content">
       {% else %}
-      <tr class="hover:bg-accent hover:text-accent-content">
+        <tr class="hover:bg-accent hover:text-accent-content">
       {% endif %}
-        <th>{{ forloop.counter|add:start_index }}</th>
-        <td>
-          <div class="avatar">
-            <div class="mask mask-squircle h-12 w-12">
-              {% if player.player.avatar %}
-                <img src="{{ player.player.avatar.url }}" alt="Avatar del jugador" width="150" />
-              {% else %}
-                <img src="{% static 'images/default_avatar.webp' %}" alt="Avatar por defecto" width="150" />
-              {% endif %}
+          <th>{{ forloop.counter|add:start_index }}</th>
+          <td>
+            <div class="avatar">
+              <div class="mask mask-squircle h-12 w-12">
+                {% if player.player.avatar %}
+                  <img src="{{ player.player.avatar.url }}" alt="Avatar del jugador" width="150" />
+                {% else %}
+                  <img src="{% static 'images/default_avatar.webp' %}" alt="Avatar por defecto" width="150" />
+                {% endif %}
+              </div>
             </div>
-          </div>
-        </td>
-        <td>{{ player.player.username }}</td>
-        <td>
-          {% if player.elo >= 2400 %}
-            <span class="text-success">{{ player.elo|floatformat:'0' }}</span>
-          {% else %}
-            {{ player.elo|floatformat:'0' }}
-          {% endif %}
-        </td>
-        <td>
-          {% if player.player.reputation_score < 0 %}
-            <span class="text-error">{{ player.player.reputation_score|floatformat:'0' }}</span>
-          {% else %}
-            {{ player.player.reputation_score|floatformat:'0' }}
-          {% endif %}
-        </td>
-      </tr>
+          </td>
+          <td><a href="{% url 'users:public_profile' player.player.id %}">{{ player.player.username }}</a></td>
+          <td>
+            {% if player.elo >= 2400 %}
+              <span class="text-success">{{ player.elo|floatformat:'0' }}</span>
+            {% else %}
+              {{ player.elo|floatformat:'0' }}
+            {% endif %}
+          </td>
+          <td>
+            {% if player.player.reputation_score < 0 %}
+              <span class="text-error">{{ player.player.reputation_score|floatformat:'0' }}</span>
+            {% else %}
+              {{ player.player.reputation_score|floatformat:'0' }}
+            {% endif %}
+          </td>
+        </tr>
     {% endfor %}
   </tbody>
 </table>
