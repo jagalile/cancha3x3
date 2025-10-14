@@ -29,6 +29,7 @@ environ.Env.read_env(BASE_DIR / ".env")
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env("DJANGO_DEBUG")
 GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY")
+PRINTFUL_API_KEY = env('PRINTFUL_API_KEY')
 
 
 AUTH_USER_MODEL = "users.Player"
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     "apps.rankings",
     "apps.info",
     "apps.dashboard",
+    "apps.store",
 ]
 
 MIDDLEWARE = [
