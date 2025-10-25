@@ -1,63 +1,76 @@
 # cancha3x3
 
-Plataforma web para organizar, competir y dominar en el baloncesto 3x3 de España. Permite gestionar equipos, torneos, rankings ELO y reputación de jugadores en un entorno de streetball.
+A web platform to organize, compete, and dominate in 3x3 basketball in Spain. Manage teams, tournaments, ELO rankings, player reputation, and even merchandising in a modern streetball environment.
 
-## Características principales
-- Registro y gestión de usuarios y equipos
-- Organización de ligas y torneos (oficiales y amistosos)
-- Sistema de ranking ELO para jugadores y equipos
-- Gestión de reputación basada en juego limpio
-- Administración de canchas y ciudades
-- Panel de administración para gestión avanzada
+## Main Features
+- User registration, authentication, and public profiles
+- Team management and membership
+- Organization of leagues and tournaments (official and friendly)
+- ELO ranking system for players and teams
+- Reputation management based on fair play
+- Court and city management
+- Admin panel for advanced management
+- E-commerce/store module for merchandising
 
-## Tecnologías utilizadas
+## Technologies Used
 - Python 3.13
 - Django 5.2
 - Tailwind CSS + DaisyUI
-- PostgreSQL (recomendado)
+- [django-environ](https://github.com/joke2k/django-environ) for environment configuration
+- SQLite (default) or PostgreSQL (recommended)
 
-## Instalación y uso rápido
-1. Clona el repositorio:
+## Quick Installation & Usage
+1. Clone the repository:
    ```bash
    git clone https://github.com/jagalile/cancha3x3.git
    cd cancha3x3
    ```
-2. Crea y activa un entorno virtual:
+2. Create and activate a virtual environment:
    ```bash
    python -m venv .venv
    source .venv/bin/activate
    ```
-3. Instala las dependencias:
+3. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements/base.txt
    ```
-4. Copia y configura tu archivo `.env`:
-   ```bash
-   cp .env.example .env
-   # Edita las variables según tu entorno
-   ```
-5. Aplica migraciones y crea un superusuario:
+4. Create and configure your `.env` file (see `.env` for required variables):
+   - Set your Django secret key, debug mode, database URL, and API keys as needed.
+5. Apply migrations and create a superuser:
    ```bash
    python manage.py migrate
    python manage.py createsuperuser
    ```
-6. Ejecuta el servidor de desarrollo:
+6. Run the development server:
    ```bash
    python manage.py runserver
    ```
 
-## Estructura del proyecto
-- `apps/` — Aplicaciones Django personalizadas (users, teams, competitions, geo, rankings, etc.)
-- `media/` — Archivos subidos por los usuarios (ignorado por git)
-- `static/` — Archivos estáticos (imágenes, CSS, JS)
-- `templates/` — Plantillas HTML
-- `config/` — Configuración global del proyecto
+## Project Structure
+- `apps/` — Custom Django apps:
+  - `users`, `teams`, `competitions`, `geo`, `rankings`, `info`, `dashboard`, `store`, `tools`
+- `media/` — User-uploaded files (gitignored)
+- `src/static/` — Static files (images, CSS, JS)
+- `src/templates/` — HTML templates and components
+- `config/` — Global project configuration and settings
+- `requirements/` — Python dependency files
+- `build.sh` — Optional build or setup script
 
-## Contribuir
-¡Las contribuciones son bienvenidas! Abre un issue o pull request para sugerir mejoras o reportar bugs.
+## Environment Variables
+The project uses [django-environ](https://github.com/joke2k/django-environ). Example variables:
+```
+DJANGO_SECRET_KEY=your-secret-key
+DJANGO_DEBUG=True
+DATABASE_URL=sqlite:///db.sqlite3
+GOOGLE_MAPS_API_KEY=your-google-maps-key
+PRINTFUL_API_KEY=your-printful-key
+```
 
-## Licencia
-Este proyecto está licenciado bajo la [GNU GPL v3](LICENSE).
+## Contributing
+Contributions are welcome! Open an issue or pull request to suggest improvements or report bugs.
+
+## License
+This project is licensed under the [GNU GPL v3](LICENSE).
 
 ---
-¿Preguntas? Contacta a los administradores o abre un issue en GitHub.
+Questions? Contact the admins or open an issue on GitHub.
